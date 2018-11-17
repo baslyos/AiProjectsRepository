@@ -37,17 +37,6 @@ public class PathRunnerFrame extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		int xxx = 0B1_1111_1111_1111;
-		// xxx = xxx << 1;
-		// xxx += 0;
-		System.out.println("aaaaaaasjaf;lkajslfaaaaaaaaa  " + (xxx + 1));
-		System.out.println();
-		System.out.println("aaaaaaasjaf;lkajslfaaaaaaaaa  " + (xxx + 1));
-		System.out.println();
-		System.out.println("aaaaaaasjaf;lkajslfaaaaaaaaa  " + (xxx + 1));
-		System.out.println();
-		System.out.println("aaaaaaasjaf;lkajslfaaaaaaaaa  " + (xxx + 1));
-		System.out.println();
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
