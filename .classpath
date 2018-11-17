@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/CustomProgramFiles/neuroph-2.94/neuroph-2.94/neuroph-core-2.94.jar"/>
-	<classpathentry kind="lib" path="C:/CustomProgramFiles/neuroph-2.94/neuroph-2.94/neuroph-core-2.94-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/CustomProgramFiles/neuroph-2.94/neuroph-2.94/neuroph-core-2.94-sources.jar"/>
+	<classpathentry kind="lib" path="lib/neuroph-core-2.94-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/neuroph-core-2.94-sources.jar"/>
+	<classpathentry kind="lib" path="lib/neuroph-core-2.94.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
