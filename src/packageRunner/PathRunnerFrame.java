@@ -424,7 +424,7 @@ class PathBoard extends JPanel {
 		for (TrainingSetElement dData : trainingSet) {
 			ds.addRow(new DataSetRow(dData.input, dData.output));
 		}
-		ds.saveAsTxt(".\\pzRnrTrainingDataSet1", ",");
+		ds.saveAsTxt(".\\pzRnrTrainingDataSet4", ",");
 		System.out.println("saved " + ds.size() + " done");
 	}
 }
