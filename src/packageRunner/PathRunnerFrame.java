@@ -284,7 +284,7 @@ class PathBoard extends JPanel {
 				bitBuilder = 0;
 				for (yy = 120; yy > -1; yy -= 10) {
 					bitBuilder = bitBuilder << 1;
-					if ((pr.locationX + xx < 1700) && (pr.locationY + yy < 850)
+					if ((pr.locationX + xx < 1700) && (pr.locationX + xx > -1) && (pr.locationY + yy < 850)
 							&& boardImage.getRGB(pr.locationX + xx, pr.locationY + yy) == drawingColor.getRGB()) {
 						bitBuilder = bitBuilder | 1;
 					}
@@ -298,7 +298,7 @@ class PathBoard extends JPanel {
 				bitBuilder = 0;
 				for (xx = 120; xx > -1; xx -= 10) {
 					bitBuilder = bitBuilder << 1;
-					if ((pr.locationX - xx > -1) && (pr.locationY + yy < 850)
+					if ((pr.locationX - xx > -1) && (pr.locationY + yy < 850) && (pr.locationY + yy > -1)
 							&& boardImage.getRGB(pr.locationX - xx, pr.locationY + yy) == drawingColor.getRGB()) {
 						bitBuilder = bitBuilder | 1;
 					}
@@ -312,7 +312,7 @@ class PathBoard extends JPanel {
 				bitBuilder = 0;
 				for (yy = 120; yy > -1; yy -= 10) {
 					bitBuilder = bitBuilder << 1;
-					if ((pr.locationX - xx > -1) && (pr.locationY - yy > -1)
+					if ((pr.locationX - xx > -1) && (pr.locationX - xx < 1700) && (pr.locationY - yy > -1)
 							&& boardImage.getRGB(pr.locationX - xx, pr.locationY - yy) == drawingColor.getRGB()) {
 						bitBuilder = bitBuilder | 1;
 					}
@@ -330,7 +330,7 @@ class PathBoard extends JPanel {
 				bitBuilder = 0;
 				for (xx = 120; xx > -1; xx -= 10) {
 					bitBuilder = bitBuilder << 1;
-					if ((pr.locationX + xx < 1700) && (pr.locationY - yy > -1)
+					if ((pr.locationX + xx < 1700) && (pr.locationY - yy > -1) && (pr.locationY - yy < 850)
 							&& boardImage.getRGB(pr.locationX + xx, pr.locationY - yy) == drawingColor.getRGB()) {
 						bitBuilder = bitBuilder | 1;
 					}
@@ -412,6 +412,7 @@ class PathBoard extends JPanel {
 
 	public boolean reachedDestination() {
 		if (pr.locationY == pathRunnerInitialLocationY && Math.abs(pr.locationX - pathRunnerInitialLocationX) < 21) {
+			System.out.println("a lap");
 			return true;
 		}
 		return false;
@@ -419,9 +420,12 @@ class PathBoard extends JPanel {
 
 	public void saveTraining() {
 		System.out.println("Saving trainingSet");
-		DataSet ds = new DataSet(2, 1);
-		ds.addRow(new DataSetRow(new double[] { 4.0d, 6.0d }, new double[] { 1.0d }));
-		ds.saveAsTxt("dataSetFromEclipse.txt", ",");
+		DataSet ds = new DataSet(26, 1);
+		for (TrainingSetElement dData : trainingSet) {
+			ds.addRow(new DataSetRow(dData.input, dData.output));
+		}
+		ds.saveAsTxt(".\\pzRnrTrainingDataSet1", ",");
+		System.out.println("saved " + ds.size() + " done");
 	}
 }
 
@@ -477,7 +481,7 @@ class TimerThread implements Runnable {
 				break;
 			}
 		}
-		System.out.println("finished");
+		System.out.println("Thread finished");
 	}
 }
 
