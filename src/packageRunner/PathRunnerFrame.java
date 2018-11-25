@@ -23,6 +23,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 
@@ -115,7 +116,7 @@ class PathBoard extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BufferedImage boardImage;
 	private boolean useKeyInsteadAI;
-
+	TrainingSetElement tse = null;
 	private Graphics gBoardImage;
 	private int i, j, k;
 	private boolean initialized;
@@ -133,8 +134,13 @@ class PathBoard extends JPanel {
 	private int bitBuilder = 0;
 	private int xx, yy, zz;
 	public int lapsDone;
+	public NeuralNetwork PRNN;
 
 	PathBoard() {
+		PRNN = NeuralNetwork.createFromFile(
+				"C:\\Users\\basly\\OneDrive\\Documents\\NetBeansProjects\\NeurophProject1\\Neural Networks\\PathRunnerNN15.nnet");
+		System.out.println(PRNN.getLayersCount() + " is number of layers");
+
 		m = t = doubleNumber = 0.0d;
 		tt = new Thread(new TimerThread(this));
 		useKeyInsteadAI = true;
@@ -274,7 +280,7 @@ class PathBoard extends JPanel {
 		initialized = true;
 	}
 
-	public void createLearningData() {
+	public TrainingSetElement createLearningData() {
 		TrainingSetElement tempElement = new TrainingSetElement();
 		tempElement.output[0] = LR / 3;
 		zz = -1;
@@ -291,7 +297,7 @@ class PathBoard extends JPanel {
 				}
 				tempElement.input[++zz] = bitBuilder + 1;
 			}
-			trainingSet.add(tempElement);
+			// trainingSet.add(tempElement);
 		} else if (pr.angle >= 135 && pr.angle < 225) { // going left
 			tempElement.input[++zz] = (pr.angle - 134) * 91;
 			for (yy = 120; yy > -121; yy -= 10) {
@@ -305,7 +311,7 @@ class PathBoard extends JPanel {
 				}
 				tempElement.input[++zz] = bitBuilder + 1;
 			}
-			trainingSet.add(tempElement);
+			// trainingSet.add(tempElement);
 		} else if (pr.angle >= 225 && pr.angle < 315) { // going up
 			tempElement.input[++zz] = (pr.angle - 224) * 91;
 			for (xx = 120; xx > -121; xx -= 10) {
@@ -319,7 +325,7 @@ class PathBoard extends JPanel {
 				}
 				tempElement.input[++zz] = bitBuilder + 1;
 			}
-			trainingSet.add(tempElement);
+			// trainingSet.add(tempElement);
 		} else { // this is when going to the right
 			if (pr.angle >= 315) {
 				tempElement.input[++zz] = (pr.angle - 314) * 91;
@@ -337,13 +343,32 @@ class PathBoard extends JPanel {
 				}
 				tempElement.input[++zz] = bitBuilder + 1;
 			}
-			trainingSet.add(tempElement);
+			// trainingSet.add(tempElement);
 		}
+		return tempElement;
 	}
 
 	public boolean calculateNextMove() {
 		// this is where we introduce the training data creator
-		createLearningData();
+		tse = createLearningData();
+		// for (int tni = 0; tni < 26; ++tni) {
+		// System.out.print(tse.input[tni] + ", ");
+		// }
+		// System.out.println();
+		PRNN.setInput(tse.input[0], tse.input[1], tse.input[2], tse.input[3], tse.input[4], tse.input[5], tse.input[6],
+				tse.input[7], tse.input[8], tse.input[9], tse.input[10], tse.input[11], tse.input[12], tse.input[13],
+				tse.input[14], tse.input[15], tse.input[16], tse.input[17], tse.input[18], tse.input[19], tse.input[20],
+				tse.input[21], tse.input[22], tse.input[23], tse.input[24], tse.input[25]);
+		PRNN.calculate();
+		System.out.println(PRNN.getOutput()[0] + "  " + tse.input[0] + " " + tse.input[1] + " " + tse.input[2] + " "
+				+ tse.input[3] + " " + tse.input[4] + " " + tse.input[5] + " " + tse.input[6] + " " + tse.input[7] + " "
+				+ tse.input[8] + " " + tse.input[9] + " " + tse.input[10] + " " + tse.input[11] + " " + tse.input[12]
+				+ " " + tse.input[13] + " " + tse.input[14] + " " + tse.input[15] + " " + tse.input[16] + " "
+				+ tse.input[17] + " " + tse.input[18] + " " + tse.input[19] + " " + tse.input[20] + " " + tse.input[21]
+				+ " " + tse.input[22] + " " + tse.input[23] + " " + tse.input[24] + " " + tse.input[25]);
+		int tempLR = (int) Math.round(PRNN.getOutput()[0]);
+		LR = tempLR * 3;
+		System.out.println(LR);
 		if (LR != 0) {
 			pr.angle = pr.angle + LR;
 			LR = 0;
@@ -476,10 +501,10 @@ class TimerThread implements Runnable {
 			if (pb.reachedDestination()) {
 				pb.lapsDone += 1;
 			}
-			if (pb.lapsDone == 3) {
-				pb.saveTraining();
-				break;
-			}
+			// if (pb.lapsDone == 3) {
+			// pb.saveTraining();
+			// break;
+			// }
 		}
 		System.out.println("Thread finished");
 	}

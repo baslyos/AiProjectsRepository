@@ -5,5 +5,8 @@
 	<classpathentry kind="lib" path="lib/neuroph-core-2.94-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/neuroph-core-2.94-sources.jar"/>
 	<classpathentry kind="lib" path="lib/neuroph-core-2.94.jar"/>
+	<classpathentry kind="lib" path="C:/CustomProgramFiles/neuroph-2.94/neuroph-2.94/libs/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="lib" path="C:/CustomProgramFiles/neuroph-2.94/neuroph-2.94/libs/logback-classic-1.0.13.jar"/>
+	<classpathentry kind="lib" path="C:/CustomProgramFiles/neuroph-2.94/neuroph-2.94/libs/logback-core-1.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
