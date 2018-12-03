@@ -11,10 +11,11 @@ import org.neuroph.core.data.DataSetRow;
 public class TrainingDataGarage {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		int xxx = 0B1_1111_1111_1111;
+		System.out.println(xxx);
 		Scanner in = null;
 		try {
-			in = new Scanner(Paths.get("pzRnrTestDataSet1"), "UTF-8");
+			in = new Scanner(Paths.get("pzRnrNewOptimizedDataSet"), "UTF-8");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,7 +78,7 @@ public class TrainingDataGarage {
 
 		System.out.println(inputs.size() + " " + outputs.size());
 		// int counter2 = 0;
-		DataSet ds = new DataSet(26, 1);
+		DataSet ds = new DataSet(26, 3);
 		String[] tempStringArray = null;
 		double[] temp26 = null;
 		double[] temp1 = null;
@@ -88,8 +89,23 @@ public class TrainingDataGarage {
 			}
 			tempStringArray = inputs.get(LL).split(",");
 			temp26 = new double[26];
-			temp1 = new double[1];
-			temp1[0] = Double.parseDouble(outputs.get(LL));
+			temp1 = new double[3];
+			// >> temp1[0] = Double.parseDouble(outputs.get(LL));
+			if (outputs.get(LL).equals("-1.0")) {
+				temp1[0] = 0.2D;
+				temp1[1] = -0.2D;
+				temp1[2] = -0.2D;
+			} else if (outputs.get(LL).equals("0.0")) {
+				temp1[0] = -0.2D;
+				temp1[1] = 0.2D;
+				temp1[2] = -0.2D;
+			} else if (outputs.get(LL).equals("1.0")) {
+				temp1[0] = -0.2D;
+				temp1[1] = -0.2D;
+				temp1[2] = 0.2D;
+			} else {
+				System.out.println("something is wrong");
+			}
 			// System.out.println(inputs.get(counter2));
 			for (int i = 0; i < tempStringArray.length; ++i) {
 				temp26[i] = Double.parseDouble(tempStringArray[i]);
@@ -99,7 +115,7 @@ public class TrainingDataGarage {
 			// System.out.println();
 			// ++counter2;
 		}
-		ds.saveAsTxt(".\\pzRnrOptimizedDataSet", ",");
+		ds.saveAsTxt(".\\FingerSmallTheoryDataSet", ",");
 		System.out.println("\n\n\n\n" + counterx + "  " + counterxx);
 	}
 
